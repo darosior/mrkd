@@ -60,6 +60,8 @@ class RoffRenderer(mistune.Renderer):
 
     def header(self, text, level, raw=None):
         if level == 1:
+            # Don't print LIGHTNINGD_MANPAGE(7) in file name
+            text = ""
             if '--' not in raw:
                 self.description = "text"
             else:
