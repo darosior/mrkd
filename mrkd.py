@@ -61,8 +61,9 @@ class RoffRenderer(mistune.Renderer):
     def header(self, text, level, raw=None):
         if level == 1:
             if '--' not in raw:
-                sys.exit(f'Invalid header: {raw}')
-            self.description = raw.split('--', 1)[1].strip()
+                self.description = "text"
+            else:
+                self.description = raw.split('--', 1)[1].strip()
             return lines(
                 f'.TH "{self.name.upper()}" "{self.sect}" "" "" "{self.name}"',
                 '.SH NAME',
@@ -77,7 +78,9 @@ class RoffRenderer(mistune.Renderer):
         return lines('.HL')
 
     def list(self, body, ordered=True):
-        if ordered:
+        if not body:
+            return ""
+        elif ordered:
             count = 1
             buf = io.StringIO()
 
